@@ -8,7 +8,13 @@
       "jsx": true
     }
   },
-  "plugins": ["react", "jsx-a11y", "react-hooks", "prettier"],
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "react-hooks",
+    "prettier",
+    "react/recommended"
+  ],
   "env": {
     "browser": true,
     "node": true,
@@ -19,6 +25,8 @@
     "import/no-unresolved": "off",
     "react/prop-types": "off",
     "no-console": "warn",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
   }
 }
