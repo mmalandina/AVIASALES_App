@@ -1,0 +1,26 @@
+.showMoreButton {
+  font-family: 'Open Sans';
+  width: 100%;
+  height: 50px;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 5px;
+  color:  #FFF;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.showMoreButton:hover {
+  background-color: #42a5f5;
+}
+
+@media (max-width: 576px) {
+  .showMoreButton {
+    height: 40px;
+    font-size: 10px;
+  }
+}

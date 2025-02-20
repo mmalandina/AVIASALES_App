@@ -1,0 +1,42 @@
+.TicketsFilter {
+  display: flex;
+  justify-content: center;
+  background: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+  height: 50px;
+  gap: 0;
+  display: flex;
+  margin: 20px auto;
+  margin-top: 0px;
+}
+
+.filterButton {
+  font-family: 'Open Sans';
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  flex: 1;
+  padding: 15px;
+  border: 1px solid #DFE5EC;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: 0.3s ease, color 0.3s ease;
+}
+
+.filterButton.selected {
+  border: none;
+  background: #2196F3;
+  color: #fff;
+}
+
+.filterButton:not(.selected):hover {
+  border: 1px solid #2196F3;
+  background: #F1FCFF;
+}
+
+.header {
+  position: relative;
+}

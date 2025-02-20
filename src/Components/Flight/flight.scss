@@ -1,0 +1,26 @@
+.flight {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  line-height: 21px;
+  color: #4A4A4A;
+}
+
+.flightInfo {
+  text-transform: uppercase;
+  font-weight: bolder;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  position: relative;
+  top: 20px;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.gray-text {
+  color: #A0B0B9;
+  line-height: 18px;
+  font-size: 12px;
+}
