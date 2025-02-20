@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import BarLoader from 'react-spinners/BarLoader';
-import { fetchTickets } from '../../Store/actions';
-import Ticket from '../Ticket';
+import { useEffect, useState, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import BarLoader from "react-spinners/BarLoader";
+import { fetchTickets } from "../../Store/actions";
+import Ticket from "../Ticket";
 
 export default function TicketsList() {
   const dispatch = useDispatch();
@@ -21,29 +21,29 @@ export default function TicketsList() {
 
   const sortTickets = (ticketsArray, filterType) => {
     switch (filterType) {
-      case 'cheapest':
+      case "cheapest":
         return [...ticketsArray].sort((a, b) => a.price - b.price);
-      case 'fastest':
+      case "fastest":
         return [...ticketsArray].sort((a, b) => {
           const durationA = a.segments.reduce(
             (acc, seg) => acc + seg.duration,
-            0
+            0,
           );
           const durationB = b.segments.reduce(
             (acc, seg) => acc + seg.duration,
-            0
+            0,
           );
           return durationA - durationB;
         });
-      case 'optimal':
+      case "optimal":
         return [...ticketsArray].sort((a, b) => {
           const durationA = a.segments.reduce(
             (acc, seg) => acc + seg.duration,
-            0
+            0,
           );
           const durationB = b.segments.reduce(
             (acc, seg) => acc + seg.duration,
-            0
+            0,
           );
           const scoreA = a.price / durationA;
           const scoreB = b.price / durationB;
@@ -65,7 +65,7 @@ export default function TicketsList() {
           3: checkboxes.threeStops,
         };
         return checkboxesMap[stopCount] ?? false;
-      })
+      }),
     );
   };
 
@@ -95,18 +95,18 @@ export default function TicketsList() {
 
   return (
     <div className="ticketsList">
-      {localTickets.slice(0, visibleTickets).map((ticket, index) => (
-        <Ticket
-          key={ticket.id ? ticket.id : index}
-          {...ticket}
-        />
-      ))}
-      {loadingTickets && (
-        <BarLoader
-          color="#2196F3"
-          width="100%"
-        />
+      {!loadingTickets && localTickets.length === 0 ? (
+        <p className="no-tickets-message" style={{ fontSize: "16px" }}>
+          Рейсов, подходящих под заданные фильтры, не найдено
+        </p>
+      ) : (
+        localTickets
+          .slice(0, visibleTickets)
+          .map((ticket, index) => (
+            <Ticket key={ticket.id ? ticket.id : index} {...ticket} />
+          ))
       )}
+      {loadingTickets && <BarLoader color="#2196F3" width="100%" />}
     </div>
   );
 }
