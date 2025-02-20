@@ -11,7 +11,7 @@ export default function App() {
     <Provider store={store}>
       <div className="app">
         <header className="header">
-          <img src="src/Components/img/Logo.svg" alt="Logo" className="logo" />
+          <img src="/Logo.svg" alt="Logo" className="logo" />
         </header>
         <main className="main">
           <div className="checkboxes-wrap">
