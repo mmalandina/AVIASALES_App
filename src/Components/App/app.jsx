@@ -4,6 +4,7 @@ import Checkboxes from "../Checkboxes";
 import TicketsFilter from "../TicketsFilter";
 import TicketsList from "../TicketsList";
 import ShowMore from "../ShowMore";
+import ScrollToTopButton from "../ScrollToTopButton";
 import "./app.scss";
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
             <ShowMore />
           </div>
         </main>
+        <ScrollToTopButton />
       </div>
     </Provider>
   );
