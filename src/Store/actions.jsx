@@ -1,14 +1,13 @@
-import Api from '../API/api';
+import Api from "../API/api";
 
-export const SET_SEARCH_ID = 'SET_SEARCH_ID';
-export const GET_TICKETS_SUCCESS = 'GET_TICKETS_SUCCESS';
-export const GET_TICKETS_FAILURE = 'GET_TICKETS_FAILURE';
-export const SHOW_MORE_TICKETS = 'SHOW_MORE_TICKETS';
-export const TOGGLE_CHECKBOXES = 'TOGGLE_CHECKBOXES';
-export const SET_FILTER_TICKETS = 'SET_FILTER_TICKETS';
-export const START_LOADING_TICKETS = 'START_LOADING_TICKETS';
-export const FINISH_LOADING_TICKETS = 'FINISH_LOADING_TICKETS';
-export const SET_ALL_TICKETS_LOADED = 'SET_ALL_TICKETS_LOADED';
+export const SET_SEARCH_ID = "SET_SEARCH_ID";
+export const GET_TICKETS_SUCCESS = "GET_TICKETS_SUCCESS";
+export const GET_TICKETS_FAILURE = "GET_TICKETS_FAILURE";
+export const SHOW_MORE_TICKETS = "SHOW_MORE_TICKETS";
+export const TOGGLE_CHECKBOXES = "TOGGLE_CHECKBOXES";
+export const SET_FILTER_TICKETS = "SET_FILTER_TICKETS";
+export const START_LOADING_TICKETS = "START_LOADING_TICKETS";
+export const FINISH_LOADING_TICKETS = "FINISH_LOADING_TICKETS";
 
 export const setSearchId = (searchId) => ({
   type: SET_SEARCH_ID,
@@ -47,10 +46,6 @@ export const finishLoadingTickets = () => ({
   type: FINISH_LOADING_TICKETS,
 });
 
-export const setAllTicketsLoaded = () => ({
-  type: SET_ALL_TICKETS_LOADED,
-});
-
 export const fetchTickets = () => async (dispatch) => {
   const api = new Api();
   try {
@@ -59,9 +54,11 @@ export const fetchTickets = () => async (dispatch) => {
     dispatch(setSearchId(searchId));
 
     let stop = false;
+    let totalTickets = 0;
     while (!stop) {
       try {
         const data = await api.getTickets(searchId);
+        totalTickets += data.tickets.length;
         dispatch(getTicketsSuccess(data.tickets));
         stop = data.stop;
       } catch (error) {
@@ -69,9 +66,12 @@ export const fetchTickets = () => async (dispatch) => {
         break;
       }
     }
+
     if (stop) {
-      dispatch(setAllTicketsLoaded());
+      dispatch(finishLoadingTickets());
+      console.log(`Всего загружено билетов: ${totalTickets}`);
     }
+
     dispatch(finishLoadingTickets());
   } catch (error) {
     dispatch(getTicketsFailure(error.message));

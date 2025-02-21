@@ -7,16 +7,14 @@ import {
   SET_FILTER_TICKETS,
   START_LOADING_TICKETS,
   FINISH_LOADING_TICKETS,
-  SET_ALL_TICKETS_LOADED,
-} from './actions';
+} from "./actions";
 
 const initialState = {
-  searchId: '',
+  searchId: "",
   tickets: [],
   visibleTickets: 5,
   loadingTickets: false,
   error: null,
-  allTicketsLoaded: false,
   checkboxes: {
     all: true,
     noStops: true,
@@ -24,25 +22,28 @@ const initialState = {
     twoStops: true,
     threeStops: true,
   },
-  filterTickets: 'optimal',
+  filterTickets: "optimal",
 };
 
 const ticketsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_SEARCH_ID:
       return { ...state, searchId: action.payload };
+
     case GET_TICKETS_SUCCESS:
       return {
         ...state,
         tickets: [...state.tickets, ...action.payload],
-        loadingTickets: false,
       };
+
     case GET_TICKETS_FAILURE:
-      return { ...state, error: action.payload, loadingTickets: false };
+      return { ...state, error: action.payload };
+
     case SHOW_MORE_TICKETS:
       return { ...state, visibleTickets: state.visibleTickets + 5 };
+
     case TOGGLE_CHECKBOXES: {
-      if (action.payload === 'all') {
+      if (action.payload === "all") {
         const newValue = !state.checkboxes.all;
         return {
           ...state,
@@ -66,14 +67,16 @@ const ticketsReducer = (state = initialState, action) => {
         checkboxes: newCheckboxes,
       };
     }
+
     case SET_FILTER_TICKETS:
       return { ...state, filterTickets: action.payload };
+
     case START_LOADING_TICKETS:
       return { ...state, loadingTickets: true };
+
     case FINISH_LOADING_TICKETS:
       return { ...state, loadingTickets: false };
-    case SET_ALL_TICKETS_LOADED:
-      return { ...state, allTicketsLoaded: true };
+
     default:
       return state;
   }
