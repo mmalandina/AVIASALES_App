@@ -14,6 +14,7 @@
 }
 
 .ticketHeader {
+  height: 36px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,13 +22,13 @@
 }
 
 .ticketHeader span {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
   color: #2196F3;
 }
 
 .carrierLogo {
-  height: 36px;
+  height: 110%;
   width: auto;
 }
 

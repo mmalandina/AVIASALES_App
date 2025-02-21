@@ -10,6 +10,7 @@
   display: flex;
   margin: 20px auto;
   margin-top: 0px;
+  border: 1px solid #DFE5EC;
 }
 
 .filterButton {
@@ -19,21 +20,24 @@
   text-transform: uppercase;
   flex: 1;
   padding: 15px;
-  border: 1px solid #DFE5EC;
   background: white;
+  border: none;
   color: #333;
   cursor: pointer;
   transition: 0.3s ease, color 0.3s ease;
 }
 
+.filterButton:nth-child(2),
+.filterButton:nth-child(3) {
+  border-left: 1px solid #DFE5EC;
+}
+
 .filterButton.selected {
-  border: none;
   background: #2196F3;
   color: #fff;
 }
 
 .filterButton:not(.selected):hover {
-  border: 1px solid #2196F3;
   background: #F1FCFF;
 }
 
