@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import BarLoader from "react-spinners/BarLoader";
 import { fetchTickets } from "../../Store/actions";
@@ -6,19 +6,13 @@ import Ticket from "../Ticket";
 
 export default function TicketsList() {
   const dispatch = useDispatch();
-
   const tickets = useSelector((state) => state.tickets);
   const visibleTickets = useSelector((state) => state.visibleTickets);
   const checkboxes = useSelector((state) => state.checkboxes);
   const filterTickets = useSelector((state) => state.filterTickets);
   const loadingTickets = useSelector((state) => state.loadingTickets);
 
-  const [localTickets, setLocalTickets] = useState([]);
-
-  const prevTicketsCountRef = useRef(tickets.length);
-  const prevFilterRef = useRef(filterTickets);
-  const prevCheckboxesRef = useRef(checkboxes);
-
+  const hasFetchedRef = useRef(false);
   const sortTickets = (ticketsArray, filterType) => {
     switch (filterType) {
       case "cheapest":
@@ -69,44 +63,28 @@ export default function TicketsList() {
     );
   };
 
+  const sortedTickets = sortTickets(tickets, filterTickets);
+  const sortedAndFilteredTickets = filterByCheckboxes(sortedTickets);
   useEffect(() => {
-    if (
-      prevFilterRef.current !== filterTickets ||
-      JSON.stringify(prevCheckboxesRef.current) !== JSON.stringify(checkboxes)
-    ) {
-      const sorted = sortTickets(tickets, filterTickets);
-      const filtered = filterByCheckboxes(sorted);
-      setLocalTickets(filtered);
-      prevFilterRef.current = filterTickets;
-      prevCheckboxesRef.current = checkboxes;
-      prevTicketsCountRef.current = tickets.length;
-    } else if (tickets.length > prevTicketsCountRef.current) {
-      const newTickets = tickets.slice(prevTicketsCountRef.current);
-      const sortedNew = sortTickets(newTickets, filterTickets);
-      const filteredNew = filterByCheckboxes(sortedNew);
-      setLocalTickets((prev) => [...prev, ...filteredNew]);
-      prevTicketsCountRef.current = tickets.length;
+    if (!hasFetchedRef.current) {
+      hasFetchedRef.current = true;
+      dispatch(fetchTickets());
     }
-  }, [tickets, filterTickets, checkboxes]);
-
-  useEffect(() => {
-    dispatch(fetchTickets());
   }, [dispatch]);
-
   return (
     <div className="ticketsList">
-      {!loadingTickets && localTickets.length === 0 ? (
+      {loadingTickets && <BarLoader color="#2196F3" width="100%" />}
+      {tickets.length > 0 && sortedAndFilteredTickets.length === 0 ? (
         <p className="no-tickets-message" style={{ fontSize: "16px" }}>
           Рейсов, подходящих под заданные фильтры, не найдено
         </p>
       ) : (
-        localTickets
+        sortedAndFilteredTickets
           .slice(0, visibleTickets)
           .map((ticket, index) => (
-            <Ticket key={ticket.id ? ticket.id : index} {...ticket} />
+            <Ticket key={ticket.id || index} {...ticket} />
           ))
       )}
-      {loadingTickets && <BarLoader color="#2196F3" width="100%" />}
     </div>
   );
 }
